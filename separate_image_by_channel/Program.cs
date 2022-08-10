@@ -14,17 +14,14 @@ namespace separate_image_by_channel
             var inputPdf = "06.tif.pdf";
            
             
-            var outputImg = Rasterize(inputPdf);
-
-            Separate(outputImg);
-
+            Separate(inputPdf);
+       
             
         }
 
-        static string Rasterize(string input)
+        static void Separate(string input)
         {
-            var output = input + ".jpg";
-
+            List<string> colors = new List<string> { "C", "M", "Y", "K" };
             var settings = new MagickReadSettings
             {
                 Density = new Density(150, 150),
@@ -33,25 +30,13 @@ namespace separate_image_by_channel
             };
             var images = new MagickImageCollection();
             images.Read(input, settings);
-            images[0].Format = MagickFormat.Jpg; //or .Tiff
-            images[0].Write(output); // or ".tiff"
 
-            return output;
-        }
-
-        static void Separate(string input)
-        {
-            List<string> colors = new List<string> { "C", "M", "Y", "K" };
-            using (MagickImageCollection images = new MagickImageCollection())
+            int n = 0;
+            foreach (var channel in images[0].Separate(Channels.All))
             {
-                images.Read(input);
-                int n = 0;
-                foreach (var channel in images[0].Separate(Channels.All))
-                {
-                    channel.Negate();
-                    channel.Write(input + "_" + colors[n] + ".jpg");
-                    n++;
-                }
+                channel.Negate();
+                channel.Write(input + "_" + colors[n] + ".jpg");
+                n++;
             }
         }
     }
