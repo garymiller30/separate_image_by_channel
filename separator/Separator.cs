@@ -6,6 +6,8 @@ using System.Linq;
 using System.Runtime;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.Imaging;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace separator
 {
@@ -46,6 +48,54 @@ namespace separator
                     var separateFile = $"{path}_{_colors[n]}.jpg";
                     channel.Write(separateFile);
                     dict[_colors[n]] =separateFile;
+                    n++;
+                }
+                return dict;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public Dictionary<string, BitmapImage> ProcessFileToStream(string path)
+        {
+            if (!File.Exists(path)) throw new FileNotFoundException($"File {path} not found");
+
+            var images = new MagickImageCollection();
+            try
+            {
+                images.Read(path, _settings);
+
+                var channels = images[0].Separate(Channels.All);
+
+                if (channels.Count != 4) throw new Exception("Channels are not equals 4");
+
+                var dict = new Dictionary<string, BitmapImage>
+                {
+                    { _colors[0], new BitmapImage() },
+                    { _colors[1], new BitmapImage()},
+                    { _colors[2], new BitmapImage() },
+                    { _colors[3], new BitmapImage()}
+                };
+
+                int n = 0;
+                foreach (var channel in channels)
+                {
+                    channel.Negate();
+                    
+                    using(var stream = new MemoryStream())
+                    {
+                        channel.Write(stream,MagickFormat.Jpg);
+                        stream.Position = 0;
+                        var image = dict[_colors[n]];
+                        image.BeginInit();
+                        image.CacheOption = BitmapCacheOption.OnLoad;
+                        image.StreamSource = stream;
+                        image.EndInit();
+                        image.Freeze();
+                    }
+                    
                     n++;
                 }
                 return dict;

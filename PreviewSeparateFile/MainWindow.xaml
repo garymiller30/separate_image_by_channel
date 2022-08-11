@@ -5,16 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:converter="clr-namespace:PreviewSeparateFile.converters"
         mc:Ignorable="d"
-        Title="Preview Separated File" Height="450" Width="800" Loaded="Window_Loaded" Closing="Window_Closing">
+        Title="Preview Separated File" Height="450" Width="800" Loaded="Window_Loaded">
     <Window.Resources>
         <converter:StringToImageConverter x:Key="ImageConverter" />
+        <converter:MemoryStreamToImageConverter x:Key="MemoryStreamToImageConverter"/>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="419*"/>
             <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
-        <ListBox x:Name="list" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" Grid.RowSpan="2" >
+        <ListBox Grid.Row="0" x:Name="list" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" >
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
 
@@ -24,10 +25,10 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
-                        <Image Width="200" x:Name="Cyan"  Source="{Binding Path=Cyan,Converter={StaticResource  ImageConverter}}"/>
-                        <Image Width="200" x:Name="Magenta" Source="{Binding Path=Magenta,Converter={StaticResource  ImageConverter}}"/>
-                        <Image Width="200" x:Name="Yellow" Source="{Binding Path=Yellow,Converter={StaticResource  ImageConverter}}"/>
-                        <Image Width="200" x:Name="Black" Source="{Binding Path=Black,Converter={StaticResource  ImageConverter}}"/>
+                        <Image Width="200" x:Name="Cyan"  Source="{Binding Path=Cyan}"/>
+                        <Image Width="200" x:Name="Magenta" Source="{Binding Path=Magenta}"/>
+                        <Image Width="200" x:Name="Yellow" Source="{Binding Path=Yellow}"/>
+                        <Image Width="200" x:Name="Black" Source="{Binding Path=Black}"/>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>

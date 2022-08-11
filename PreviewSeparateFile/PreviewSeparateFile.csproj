@@ -5,7 +5,12 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Custom-Icon-Design-Flatastic-7-Color-pencils.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Custom-Icon-Design-Flatastic-7-Color-pencils.ico" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\separator\separator.csproj" />
