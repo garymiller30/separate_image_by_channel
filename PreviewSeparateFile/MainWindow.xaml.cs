@@ -71,5 +71,14 @@ namespace PreviewSeparateFile
         {
             dir = path;
         }
+
+        private void ListBoxItem_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            PreviewFile<BitmapImage> previewFile = (PreviewFile<BitmapImage>)((ListBoxItem)sender).Content;
+            
+            var separator = new separator.Separator();
+            previewFile.SeparationsFile = separator.ProcessFileToStream(previewFile.FileName);
+            list.Items.Refresh();
+        }
     }
 }

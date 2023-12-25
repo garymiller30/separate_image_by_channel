@@ -18,8 +18,8 @@
         <ListBox Grid.Row="0" x:Name="list" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="False" >
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem">
-
                     <EventSetter Event="MouseDoubleClick" Handler="ListBoxItem_MouseDoubleClick"/>
+                    <EventSetter Event="MouseRightButtonUp" Handler="ListBoxItem_MouseRightButtonUp"/>
                 </Style>
             </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
